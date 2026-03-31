@@ -1,6 +1,3 @@
-### Unified Hierarchical Signal Processing for UAV ISAC
-
-```
 # Unified Hierarchical Signal Processing for UAV ISAC
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -19,14 +16,15 @@ To address the severe Doppler vulnerability and inflexible frame configurations 
 This codebase demonstrates the system's capability to seamlessly map raw delay-Doppler echoes into fine-grained semantic perceptions across four discrete hierarchical levels ($L_1$ to $L_4$), achieving a Pareto-optimal trade-off between Gbps-level communication and robust micro-Doppler kinematic tracking.
 
 ### 🌟 Core Algorithmic Mechanisms Highlighted
+
 - **Mechanism 1 (Nyquist-Folded Micro-Doppler Extraction):** Located in `src/l2_target_classification.py`. Utilizes boundary truncation ratios to distinguish highly dynamic UAV rotors from generic moving scatterers.
 - **Mechanism 2 (Adaptive Density-Based Kinematic Clustering):** Located in `src/l3_configuration_recognition.py`. Employs dynamic $\epsilon$-scaling DBSCAN to accurately isolate discrete rotor signatures and map them directly to physical UAV topologies.
 
----
+------
 
 ## 📂 Repository Structure
 
-​```text
+```text
 Unified-Hierarchical-Signal-Processing-for-UAV-ISAC/
 ├── data/                               # Sample/Generated data directories
 │   └── rda.json                        # Sample discrete delay-Doppler matrix output
@@ -47,8 +45,6 @@ Unified-Hierarchical-Signal-Processing-for-UAV-ISAC/
 └── README.md
 ```
 
-------
-
 ## 🚀 Quick Start & Reproducibility
 
 We have provided automated bash scripts to ensure the rigorous reproducibility of our system-level evaluations.
@@ -56,10 +52,6 @@ We have provided automated bash scripts to ensure the rigorous reproducibility o
 ### 1. Environment Setup
 
 Ensure you have Python 3.8+ installed. Install the required numerical and machine-learning dependencies:
-
-Bash
-
-
 
 ```
 pip install -r requirements.txt
