@@ -1,0 +1,19 @@
+# ==============================================================================
+# WH-DRCS ISAC Framework - Python Dependencies
+# Author: Chengjuan Wan, et al.
+# ==============================================================================
+
+# Core numerical computation and delay-Doppler matrix operations
+numpy>=1.24.0
+
+# Advanced signal processing, peak detection, and statistical features (Entropy, Kurtosis)
+scipy>=1.10.0
+
+# Machine learning algorithms for Mechanism 2 (Adaptive DBSCAN & Silhouette metrics)
+scikit-learn>=1.2.0
+
+# ==============================================================================
+# Optional Dependencies (For visualization and ground-truth trajectory analysis)
+# ==============================================================================
+matplotlib>=3.7.0
+pandas>=2.0.0
