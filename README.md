@@ -2,10 +2,10 @@
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![IEEE IoTJ](https://img.shields.io/badge/Paper-IEEE_IoTJ_Under_Review-success.svg)](#)
+[![IEEE TVT](https://img.shields.io/badge/Paper-IEEE_TVT_Under_Review-success.svg)](#)
 
 > **Official Implementation** for the paper:  
-> *"Design and Optimization of a Doppler-Resilient ISAC Framework for UAV Hierarchical Sensing"* > Submitted to the **IEEE Internet of Things Journal (IoTJ)**.
+> *"Design and Optimization of a Doppler-Resilient ISAC Framework for UAV Hierarchical Sensing"* > Submitted to the **IEEE Transactions on Vehicular Technology (TVT)**.
 
 ## 📖 Overview
 
