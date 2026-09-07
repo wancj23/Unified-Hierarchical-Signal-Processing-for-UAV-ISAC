@@ -40,6 +40,9 @@ It implements the hierarchical sensing backend developed for the **Walsh–Hadam
 > [!NOTE]
 > This repository contains the author-developed hierarchical sensing backend. NIST ISAC-PLM and the NIST Quasi-Deterministic (QD) channel software are upstream dependencies and are not redistributed here.
 
+> [!TIP]
+> See the [complete reproducibility and task-specific evaluation protocol](docs/Reproducibility_and_Task_Specific_Evaluation.md) for parameter-selection rules, metric definitions, result-file specifications, and the maximum-unambiguous-velocity clarification.
+
 <a id="processing-pipeline"></a>
 
 ## 🌟 Processing Pipeline
@@ -313,6 +316,8 @@ This record separates genuine algorithmic changes from changes in data partition
 Unified-Hierarchical-Signal-Processing-for-UAV-ISAC/
 ├── data/
 │   └── rda.json
+├── docs/
+│   └── Reproducibility_and_Task_Specific_Evaluation.md
 ├── src/
 │   ├── unified_hierarchical_processor.py
 │   ├── l1_fundamental_detection.py
