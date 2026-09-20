@@ -10,6 +10,7 @@
   <a href="https://scipy.org/"><img src="https://img.shields.io/badge/SciPy-8CAAE6?logo=scipy&logoColor=white" alt="SciPy"></a>
   <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white" alt="scikit-learn"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/Result%20Snapshot-Provisional-D29922" alt="Provisional result snapshot">
 </p>
 
 <p align="center">
@@ -18,7 +19,8 @@
   <a href="#quick-start">Quick Start</a> •
   <a href="#reproducibility-protocol">Reproducibility</a> •
   <a href="#frozen-configuration">Parameters</a> •
-  <a href="#task-specific-evaluation">Evaluation</a>
+  <a href="#task-specific-evaluation">Evaluation</a> •
+  <a href="#current-result-snapshot">Results</a>
 </p>
 
 ------
@@ -41,7 +43,11 @@ It implements the hierarchical sensing backend developed for the **Walsh–Hadam
 > This repository contains the author-developed hierarchical sensing backend. NIST ISAC-PLM and the NIST Quasi-Deterministic (QD) channel software are upstream dependencies and are not redistributed here.
 
 > [!TIP]
-> See the [complete reproducibility and task-specific evaluation protocol](docs/Reproducibility_and_Task_Specific_Evaluation.md) for parameter-selection rules, metric definitions, result-file specifications, and the maximum-unambiguous-velocity clarification.
+> See the [complete reproducibility and task-specific evaluation report](docs/Reproducibility_and_Task_Specific_Evaluation.md) for the completed parameter-calibration procedure, frozen settings, task-specific result analysis, implementation-cost record, and maximum-unambiguous-velocity clarification.
+> A print-ready [PDF version](docs/Reproducibility_and_Task_Specific_Evaluation.pdf) is provided for archival and reviewer-response use.
+
+> [!CAUTION]
+> The current result plots are deliberately watermarked as illustrative development data. They validate the complete metric and reporting workflow, but must be replaced together with their source CSV/JSON files by the frozen held-out evaluation before final submission.
 
 <a id="processing-pipeline"></a>
 
@@ -132,6 +138,18 @@ The 600 SUG-UAV trajectory realizations are split **before window extraction or 
 | Input-adaptive quantities            | Evaluated using a fixed analytical rule | Recomputed without fitting                                   |
 
 No coefficient, threshold, or DBSCAN setting is retuned for a test trajectory, SNR point, channel realization, or comparison waveform. The same frozen sensing backend is used throughout held-out evaluation.
+
+### Completed calibration procedure
+
+The fixed configuration was obtained before test evaluation:
+
+1. Training-only normalization statistics were estimated after the trajectory-disjoint split.
+2. The $L_1$ covariance diagonal was estimated from training features and converted to normalized inverse-variance weights; `gamma_detect = 0.85` was then selected from the validation ROC by the Youden index subject to $P_{FA}\leq0.10$.
+3. The $L_2$ regularized linear discriminant was fitted on standardized training features; `gamma_uav = 0.65` was selected by validation macro-F1.
+4. The $L_3$ DBSCAN, kurtosis, confidence-weight, and rejection parameters were selected by a finite validation grid search maximizing macro-F1, with rejection rate used as the first tie-breaker.
+5. The $L_4$ calibration coefficients were fitted by least squares on training trajectories; peak/fusion parameters and the reliability threshold were selected from the validation error-coverage trade-off.
+
+The complete search grids, objectives, tie-break rules, and fitted parameter values are recorded in [the detailed report](docs/Reproducibility_and_Task_Specific_Evaluation.md#completed-fitting-and-validation-procedure). The resulting parameter file is frozen across SNR values, channel scenarios, UAV classes, and comparison waveforms.
 
 <a id="frozen-configuration"></a>
 
@@ -254,7 +272,7 @@ The unified processor returns one JSON object containing the requested level and
 
 ## 📊 Task-Specific Evaluation
 
-All metrics are computed only on the **120 held-out test trajectories**, after every parameter has been frozen. Each sensing task is evaluated with a metric suited to its output rather than with a single aggregate accuracy.
+In the final evaluation, all reported metrics are computed only on the **120 held-out test trajectories**, after every parameter has been frozen. The watermarked snapshot below currently exercises the same metric pipeline with illustrative inputs. Each sensing task is evaluated with a metric suited to its output rather than with a single aggregate accuracy.
 
 | Level | Required report                           | Supporting statistics                          |
 | :---: | ----------------------------------------- | ---------------------------------------------- |
@@ -298,6 +316,78 @@ Rejected $L_4$ estimates are disclosed through **coverage**, defined as accepted
 
 </details>
 
+<a id="current-result-snapshot"></a>
+
+## 📈 Current Result Snapshot
+
+> [!WARNING]
+> These values reproduce the current **illustrative layout data** and are not final frozen-test claims. The final update must replace each figure, its source data, and the derived table values together.
+
+![L1_L2_L3_L4_combined](D:\PYCHARM\PythonProject\UAV_DRCS\Response\figures\L1_L2_L3_L4_combined.png)
+
+| Level | Current task-specific result                                 |
+| :---: | ------------------------------------------------------------ |
+| $L_1$ | ROC AUC = 0.901, 0.971, and 0.988 at 20, 30, and 40 dB       |
+| $L_2$ | Accuracy = 93.50%; macro-F1 = 93.50%; UAV recall = 95.00%    |
+| $L_3$ | Accuracy = 87.81%; macro-F1 = 87.83%; per-class recall = 85.00-90.00% |
+| $L_4$ | Rotor-speed MAE/RMSE = 6.47/7.77 rad/s; pitch = 1.49/2.02°, yaw = 2.85/3.74°, roll = 2.21/2.89° |
+
+<details>
+<summary><strong>Show task-specific matrices, errors, and interpretation</strong></summary>
+
+### $L_1$ detection
+
+The supplied ROC points are plotted directly without interpolation or smoothing. Trapezoidal integration gives AUC values of **0.901**, **0.971**, and **0.988** at 20, 30, and 40 dB, respectively.
+
+### $L_2$ UAV/non-UAV classification
+
+| True \ Predicted | Non-UAV |  UAV |
+| ---------------- | ------: | ---: |
+| Non-UAV          |      92 |    8 |
+| UAV              |       5 |   95 |
+
+The matrix gives 93.50% accuracy, 93.54% macro-precision, 93.50% macro-recall, and 93.50% macro-F1.
+
+### $L_3$ configuration recognition
+
+| True \ Predicted | Helicopter | Quadrotor | Hexarotor | Octocopter |
+| ---------------- | ---------: | --------: | --------: | ---------: |
+| Helicopter       |         72 |         4 |         2 |          2 |
+| Quadrotor        |          3 |        71 |         5 |          1 |
+| Hexarotor        |          1 |         6 |        68 |          5 |
+| Octocopter       |          2 |         2 |         6 |         70 |
+
+The matrix gives 87.81% accuracy and 87.83% macro-F1. The most frequent confusions occur between neighboring multirotor configurations, whose cluster-count and kurtosis signatures are more similar.
+
+### $L_4$ rotor speed and attitude
+
+| Quantity            |  MAE | RMSE |  Unit  |
+| ------------------- | ---: | ---: | :----: |
+| Rotor angular speed | 6.47 | 7.77 | rad/s  |
+| Pitch               | 1.49 | 2.02 | degree |
+| Yaw                 | 2.85 | 3.74 | degree |
+| Roll                | 2.21 | 2.89 | degree |
+
+The illustrative input contains 32 valid errors per parameter. Coverage is not inferred because rejected-window counts were not supplied.
+
+</details>
+
+<details>
+<summary><strong>Show profile trade-offs and implementation-cost snapshot</strong></summary>
+
+The native profiles should not be interpreted as a monotonic ranking. $L_3$ uses the shortest PRI and therefore has the largest maximum unambiguous velocity, while full-rank $L_4$ uses more training resources to prioritize ambiguity suppression and fine-grained estimation.
+
+| Profile |  $M$ | Frame efficiency | $v_{\max}$ (m/s) | Velocity MSE ($\mathrm{m^2/s^2}$) | Processing time (ms/CPI) |
+| :-----: | ---: | ---------------: | ---------------: | --------------------------------: | -----------------------: |
+|  $L_1$  |    8 |            95.1% |             25.0 |                $1.2\times10^{-1}$ |                     0.60 |
+|  $L_2$  |   16 |            87.8% |             50.0 |                $1.5\times10^{-2}$ |                     1.10 |
+|  $L_3$  |   64 |            34.6% |            125.0 |                $1.2\times10^{-3}$ |                     4.10 |
+|  $L_4$  |  128 |            25.3% |             83.3 |                $4.5\times10^{-4}$ |                     7.60 |
+
+The timing record uses an Intel Core i7-12700, 16 GB RAM, single-threaded Python 3.11/NumPy 1.26.4, four warm-up runs, and 31 timed runs per profile. Each run processes one $P=1024$-frame CPI; acquisition, offline reference preparation, plotting, and file input/output are excluded.
+
+</details>
+
 ### Evaluation record
 
 Each reported run should archive:
@@ -317,7 +407,8 @@ Unified-Hierarchical-Signal-Processing-for-UAV-ISAC/
 ├── data/
 │   └── rda.json
 ├── docs/
-│   └── Reproducibility_and_Task_Specific_Evaluation.md
+│   ├── Reproducibility_and_Task_Specific_Evaluation.md
+│   └── Reproducibility_and_Task_Specific_Evaluation.pdf
 ├── src/
 │   ├── unified_hierarchical_processor.py
 │   ├── l1_fundamental_detection.py
@@ -325,6 +416,16 @@ Unified-Hierarchical-Signal-Processing-for-UAV-ISAC/
 │   ├── l3_configuration_recognition.py
 │   └── l4_attitude_estimation.py
 ├── results/
+│   ├── task_specific_evaluation/
+│   │   ├── L1_ROC.png
+│   │   ├── L2_confusion.png
+│   │   ├── L3_confusion.png
+│   │   ├── L4_attitude_error_CDF.png
+│   │   └── L1_L2_L3_L4_combined.png
+│   ├── l1/
+│   ├── l2/
+│   ├── l3/
+│   └── l4/
 ├── requirements.txt
 └── README.md
 ```
