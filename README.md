@@ -314,7 +314,7 @@ Rejected $L_4$ estimates are disclosed through **coverage**, defined as accepted
 
 ## 📈 Current Result Snapshot
 
-![L1_L2_L3_L4_combined](D:\PYCHARM\PythonProject\UAV_DRCS\Response\figures\L1_L2_L3_L4_combined.png)
+![L1_L2_L3_L4_combined](data/L1_L2_L3_L4_combined.png)
 
 | Level | Current task-specific result                                 |
 | :---: | ------------------------------------------------------------ |
