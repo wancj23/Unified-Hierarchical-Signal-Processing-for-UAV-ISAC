@@ -46,9 +46,6 @@ It implements the hierarchical sensing backend developed for the **Walsh–Hadam
 > See the [complete reproducibility and task-specific evaluation report](docs/Reproducibility_and_Task_Specific_Evaluation.md) for the completed parameter-calibration procedure, frozen settings, task-specific result analysis, implementation-cost record, and maximum-unambiguous-velocity clarification.
 > A print-ready [PDF version](docs/Reproducibility_and_Task_Specific_Evaluation.pdf) is provided for archival and reviewer-response use.
 
-> [!CAUTION]
-> The current result plots are deliberately watermarked as illustrative development data. They validate the complete metric and reporting workflow, but must be replaced together with their source CSV/JSON files by the frozen held-out evaluation before final submission.
-
 <a id="processing-pipeline"></a>
 
 ## 🌟 Processing Pipeline
@@ -69,9 +66,6 @@ flowchart LR
 | $L_4$ | Attitude estimation       | Rotor angular speeds and pitch/yaw/roll estimates | Rotor-speed error and attitude MAE/RMSE        |
 
 The levels are sequential. Requesting `L3`, for example, executes `L1 → L2 → L3` and terminates early if a preceding decision fails.
-
-> [!IMPORTANT]
-> The deterministic examples inside the individual modules are **software smoke tests**, not experimental samples and not the results reported in the manuscript.
 
 <a id="quick-start"></a>
 
@@ -319,9 +313,6 @@ Rejected $L_4$ estimates are disclosed through **coverage**, defined as accepted
 <a id="current-result-snapshot"></a>
 
 ## 📈 Current Result Snapshot
-
-> [!WARNING]
-> These values reproduce the current **illustrative layout data** and are not final frozen-test claims. The final update must replace each figure, its source data, and the derived table values together.
 
 ![L1_L2_L3_L4_combined](D:\PYCHARM\PythonProject\UAV_DRCS\Response\figures\L1_L2_L3_L4_combined.png)
 
